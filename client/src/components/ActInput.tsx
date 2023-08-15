@@ -7,16 +7,21 @@ import InputGroup from "react-bootstrap/InputGroup";
 import "./ActInput.css";
 import { socket } from "../socket";
 
+interface Props {
+  roomId?: string;
+}
+
 enum MoveType {
   Move = 0,
   Place_I = 1,
   Place_L = 2,
 }
 
-export const ActInput: React.FC = () => {
+export const ActInput: React.FC<Props> = ({ roomId }) => {
   const [moveType, setMoveType] = useState<MoveType>(MoveType.Move);
   const [x, setX] = useState<number>();
   const [y, setY] = useState<number>();
+  const [w, setW] = useState<number>();
 
   const moves = [
     { name: "Move", value: MoveType.Move },
@@ -25,7 +30,7 @@ export const ActInput: React.FC = () => {
   ];
 
   const handlePlay = () => {
-    console.log(x + " " + y);
+    socket.emit("game: act", { roomId: roomId, act: { moveType, x, y, w } });
   };
   return (
     <div className="input-box">
@@ -59,6 +64,12 @@ export const ActInput: React.FC = () => {
           type="number"
           placeholder="y"
           onChange={(e) => setY(parseInt(e.target.value))}
+        />
+        <Form.Control
+          required
+          type="number"
+          placeholder="w"
+          onChange={(e) => setW(parseInt(e.target.value))}
         />
         <Button className="play-btn" onClick={handlePlay}>
           Play
