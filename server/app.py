@@ -39,6 +39,7 @@ class Room:
     player0: str
     player1: str
     ready: int
+    turn: bool
     # spectators: List[str]
     game: Game
 
@@ -46,6 +47,7 @@ class Room:
         self.player0 = ""
         self.player1 = ""
         self.ready = 0
+        self.turn = False
         # self.spectators = []
         self.game = Game()
 
@@ -56,6 +58,15 @@ class Room:
         }
     # def __str__(self):
     #     return f"{self.player0} vs {self.player1}\n{self.game}"
+
+
+def get_player(roomId, id):
+    if rooms[roomId].player0 == id:
+        return 0
+    elif rooms[roomId].player1 == id:
+        return 1
+    else:
+        return -1
 
 
 @socketio.on("room: join")
@@ -109,11 +120,26 @@ def game_ready(roomId):
         emit("game_start", to=roomId)
         emit("server_message", log, to=roomId)
         emit("game_board", str(rooms[roomId].game).split('\n'), to=roomId)
+        emit("game_turn", rooms[roomId].turn, to=roomId)
 
 
 @socketio.on("game: act")
-def game_act():
-    rooms[roomId].game.act(0, 1, 1)
+def game_act(data):
+    roomId = data['roomId']
+    move = data['act']
+    room = rooms[roomId]
+    game_copy = Game(room.game.st.st, room.game.acts.copy())
+    act_res = game_copy.act(*move.values())
+    if act_res is None or act_res is False:  # invalid move
+        log = f"invalid action by player{get_player(roomId, request.sid)}"
+        emit("server_message", log, to=roomId)
+    else:   # valid move
+        log = f"valid action by player{get_player(roomId, request.sid)}: {list(move.values())}"
+        emit("server_message", log, to=roomId)
+        room.game = game_copy
+        room.turn = not room.turn
+        emit("game_turn", rooms[roomId].turn, to=roomId)
+    emit("game_board", str(room.game).split('\n'), to=roomId)
 
 # @socketio.on("game: start")
 # def game_start(roomId):

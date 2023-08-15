@@ -14,6 +14,7 @@ function RoomPage() {
   const [p0, setP0] = useState<string>("");
   const [p1, setP1] = useState<string>("");
   const [board, setBoard] = useState<string[]>([]);
+  // const [turn, setTurn] = useState<boolean>(false);
 
   const [log, setLog] = useState<string[]>([]);
 
@@ -51,6 +52,10 @@ function RoomPage() {
     socket.on("game_board", (data) => {
       setBoard(data);
     });
+    socket.on("game_turn", (turn) => {
+      // setTurn(turn);
+      addLog(`player${turn ? 1 : 0}'s turn`);
+    });
 
     const cleanup = () => {
       socket.off("log_message");
@@ -77,7 +82,7 @@ function RoomPage() {
         <h1>Room {roomId}</h1>
       </section>
       {!!board.length && <GameBoard board={board} />}
-      <ActInput></ActInput>
+      <ActInput roomId={roomId} />
       <div
         style={{
           display: "flex",
