@@ -1,0 +1,19 @@
+.board-box {
+  display: flex;
+  flex-direction: column;
+  line-height: min(1.85vw, 25px);
+  margin: 10px;
+  padding: 20px;
+  font-size: min(2vw, 25px);
+  border: 3px solid black;
+}
+.whitespace-preserving {
+  white-space: pre;
+}
+.ansi-wrapper:last-child {
+  margin: 0px 2vw 0px 0px;
+}
+
+span {
+  color: rgb(0, 0, 0);
+}

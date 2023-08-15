@@ -1,0 +1,41 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:wght@900&display=swap");
+
+.header {
+  font-family: "Noto Sans", sans-serif;
+  font-size: 2vw;
+
+  animation: header 1.2s ease-out both;
+}
+
+.cardgroup {
+  display: flex;
+  justify-content: space-evenly;
+}
+.roomcard {
+  animation: 0.5s slide-up 1s both;
+}
+
+@keyframes header {
+  0% {
+    opacity: 0;
+  }
+  60% {
+    opacity: 100;
+  }
+  70% {
+    transform: translateY(0%);
+  }
+  100% {
+    transform: translateY(-100%);
+  }
+}
+@keyframes slide-up {
+  0% {
+    opacity: 0;
+    transform: translateY(150px);
+  }
+  100% {
+    opacity: 100;
+    transform: translateY(0px);
+  }
+}

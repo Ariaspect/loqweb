@@ -1,0 +1,15 @@
+.input-box {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.mb-2 {
+  margin: 10px !important;
+}
+.coord-input {
+  margin: 10px;
+  /* border: 1px solid black; */
+}
+.play-btn {
+  width: 30%;
+}

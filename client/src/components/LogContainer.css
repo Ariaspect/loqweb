@@ -1,0 +1,21 @@
+.log-box {
+  display: flex;
+  width: 100%;
+  padding: 10px;
+  padding-bottom: 54px;
+}
+
+.log-container {
+  width: 100%;
+  flex-direction: column;
+  align-items: flex-start;
+  height: 100px;
+  overflow: auto;
+  border: 1px solid black;
+}
+
+.log {
+  padding-left: 8px;
+  margin: 0px;
+  text-align: start;
+}
