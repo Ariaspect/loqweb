@@ -19,8 +19,10 @@ export const LogContainer: React.FC<Props> = ({ logs }) => {
     <div className="log-box">
       {/* Server Logs */}
       <div className="log-container">
-        {logs.map((log) => (
-          <p className="log">server: {log}</p>
+        {logs.map((log, index) => (
+          <p key={index} className="log">
+            server: {log}
+          </p>
         ))}
         <div ref={ref}></div>
       </div>
