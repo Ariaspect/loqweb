@@ -82,7 +82,7 @@ function RoomPage() {
         <h1>Room {roomId}</h1>
       </section>
       {!!board.length && <GameBoard board={board} />}
-      <ActInput roomId={roomId} />
+      <ActInput roomId={roomId} p0={p0} p1={p1} />
       <div
         style={{
           display: "flex",
