@@ -2,15 +2,12 @@ from flask import Flask, request
 from flask_socketio import SocketIO, emit, join_room, leave_room
 from flask_cors import CORS
 
-from loq0 import Game, ACTION
-
-# import json
-from typing import List
+from loq0 import Game
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'verysafepassword'
-CORS(app, resources={r'*': {"origins": "http://localhost:3000"}})
-socketio = SocketIO(app, cors_allowed_origins="*")
+CORS(app)
+socketio = SocketIO(app, cors_allowed_origins="*", async_mode='gevent')
 
 
 @app.route('/')
@@ -59,6 +56,7 @@ class Room:
     # def __str__(self):
     #     return f"{self.player0} vs {self.player1}\n{self.game}"
 
+rooms = {str(_+1): Room() for _ in range(5)}
 
 def get_player(roomId, id):
     if rooms[roomId].player0 == id:
@@ -147,5 +145,4 @@ def game_act(data):
 
 
 if __name__ == "__main__":
-    rooms = {str(_+1): Room() for _ in range(5)}
-    socketio.run(app, debug=True)
+    socketio.run(app, debug=True, port=5000)
