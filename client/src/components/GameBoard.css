@@ -1,5 +1,6 @@
 .board-box {
   display: flex;
+  position: relative;
   flex-direction: column;
   line-height: min(1.85vw, 25px);
   margin: 10px;
